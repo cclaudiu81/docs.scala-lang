@@ -19,6 +19,8 @@ The terminology can get a bit confusing at this point, and we use the phrase
 "higher order function" for both methods and functions that take functions as parameters
 or that return a function.
 
+In a pure Object Oriented world a good practice is to avoid exposing methods parameterized with functions that might leak object's internal state. Leaking internal state might break the invariants of the object itself thus violating encapsulation. 
+
 One of the most common examples is the higher-order
 function `map` which is available for collections in Scala.
 ```tut
@@ -102,6 +104,8 @@ object SalaryRaiser {
 The new method, `promotion`, takes the salaries plus a function of type `Double => Double`
 (i.e. a function that takes a Double and returns a Double) and returns the product.
 
+Methods and functions usually express behaviours or data transformations, therefore having functions that compose based on other functions can help building generic mechanisms. Those generic operations defer to lock down the entire operation behaviour giving clients a way to control or further customize parts of the operation itself.
+
 ## Functions that return functions
 
 There are certain cases where you want to generate a function. Here's an example
@@ -123,5 +127,3 @@ val url = getURL(endpoint, query) // "https://www.example.com/users?id=1": Strin
 Notice the return type of urlBuilder `(String, String) => String`. This means that
 the returned anonymous function takes two Strings and returns a String. In this case,
 the returned anonymous function is `(endpoint: String, query: String) => s"https://www.example.com/$endpoint?$query"`.
-
-Methods and functions usually express behaviours or data transformations, therefore having functions that compose based on other functions just means that one can build higher order abstract mechanisms, deferring to hardcode the internal function logic and giving the consumers the chance to customize how the overall mechanism should behave.
